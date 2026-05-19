@@ -65,9 +65,7 @@
       overflow: hidden;
       background-color: var(--disco-bg);
       background-image:
-        radial-gradient(circle at 20% 10%, rgba(255, 42, 42, 0.18) 0%, transparent 45%),
-        radial-gradient(circle at 80% 15%, rgba(0, 240, 255, 0.18) 0%, transparent 45%),
-        radial-gradient(circle at 50% 90%, rgba(255, 127, 0, 0.18) 0%, transparent 50%);
+        radial-gradient(circle at 50% 88%, rgba(0, 240, 255, 0.08) 0%, transparent 55%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -163,164 +161,190 @@
       .top-title { font-size: 56px; }
     }
 
-    /* ============ PRESENT ============ */
-    .present-wrap {
+    /* ============ VITROLA (TURNTABLE) ============ */
+    .vitrola-wrap {
       position: relative;
       z-index: 5;
       perspective: 800px;
     }
 
-    .present-container {
+    .vitrola {
       position: relative;
-      width: 220px;
-      height: 230px;
+      width: 260px;
+      height: 200px;
       cursor: pointer;
-      animation: gentleSway 3s ease-in-out infinite;
-      transform-origin: bottom center;
+      animation: gentleBob 4s ease-in-out infinite;
       transition: transform 0.2s ease;
     }
-    .present-container:active { transform: scale(0.97); }
-    .present-container.opening { animation: shakeBurst 0.4s ease-in-out, none; pointer-events: none; }
+    .vitrola:active { transform: scale(0.97); }
+    .vitrola.opening { animation: shakePlay 0.5s ease-in-out; pointer-events: none; }
 
-    @keyframes gentleSway {
-      0%, 100% { transform: rotate(-2.5deg); }
-      50% { transform: rotate(2.5deg); }
+    @keyframes gentleBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
-    @keyframes shakeBurst {
+    @keyframes shakePlay {
       0%, 100% { transform: translateX(0) rotate(0); }
-      20% { transform: translateX(-8px) rotate(-3deg); }
-      40% { transform: translateX(8px) rotate(3deg); }
-      60% { transform: translateX(-6px) rotate(-2deg); }
-      80% { transform: translateX(6px) rotate(2deg); }
+      25% { transform: translateX(-4px) rotate(-1.5deg); }
+      75% { transform: translateX(4px) rotate(1.5deg); }
     }
 
-    /* Box body — dark with neon teal outline + Memphis dots */
-    .box-body {
+    /* Turntable base — dark rectangle with neon teal outline */
+    .vitrola-base {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 160px;
-      background-color: #1a1a1a;
-      background-image:
-        radial-gradient(circle at 20% 30%, var(--disco-red) 2px, transparent 3px),
-        radial-gradient(circle at 70% 60%, var(--disco-teal) 2px, transparent 3px),
-        radial-gradient(circle at 40% 80%, var(--disco-yellow) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 85% 25%, var(--disco-orange) 2px, transparent 3px),
-        radial-gradient(circle at 15% 75%, var(--disco-pink) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 55% 15%, var(--disco-purple) 1.5px, transparent 2.5px);
-      background-size: 50px 50px;
+      inset: 0;
+      background: linear-gradient(135deg, #1f1f1f 0%, #0a0a0a 100%);
       border: 3px solid var(--disco-teal);
-      border-radius: 6px;
+      border-radius: 14px;
       box-shadow:
-        0 0 12px rgba(0, 240, 255, 0.6),
-        0 0 24px rgba(0, 240, 255, 0.3),
-        inset 0 0 12px rgba(0, 240, 255, 0.15);
-      transition: transform 0.5s ease 0.3s, opacity 0.5s ease 0.5s;
-    }
-    .opening .box-body {
-      transform: translateY(15px) scale(0.95);
-      opacity: 0.7;
+        0 0 14px rgba(0, 240, 255, 0.55),
+        0 0 28px rgba(0, 240, 255, 0.25),
+        inset 0 0 20px rgba(0, 0, 0, 0.6);
     }
 
-    /* Inner glow when lid opens */
-    .box-glow {
+    /* Inner recess holding the vinyl */
+    .platter {
       position: absolute;
-      top: 50px;
-      left: 8px;
-      right: 8px;
-      height: 60px;
+      left: 18px;
+      top: 18px;
+      width: 164px;
+      height: 164px;
+      background: #050505;
+      border-radius: 50%;
+      box-shadow:
+        inset 0 0 14px rgba(0, 0, 0, 0.9),
+        inset 0 2px 4px rgba(255, 255, 255, 0.05);
+    }
+
+    /* The vinyl record with concentric grooves */
+    .vinyl {
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      width: 156px;
+      height: 156px;
+      border-radius: 50%;
       background:
-        radial-gradient(ellipse at center top, var(--disco-yellow) 0%, var(--disco-orange) 30%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s ease 0.5s;
-      z-index: 1;
-      filter: blur(4px);
-    }
-    .opening .box-glow { opacity: 1; }
-
-    /* Lid */
-    .box-lid {
-      position: absolute;
-      top: 40px;
-      left: -10px;
-      right: -10px;
-      height: 60px;
-      background-color: #1a1a1a;
-      background-image:
-        radial-gradient(circle at 20% 50%, var(--disco-red) 2px, transparent 3px),
-        radial-gradient(circle at 70% 30%, var(--disco-teal) 2px, transparent 3px),
-        radial-gradient(circle at 40% 70%, var(--disco-yellow) 1.5px, transparent 2.5px),
-        radial-gradient(circle at 85% 55%, var(--disco-orange) 2px, transparent 3px);
-      background-size: 50px 40px;
-      border: 3px solid var(--disco-red);
-      border-radius: 6px;
+        repeating-radial-gradient(
+          circle at center,
+          #1f1f1f 0px,
+          #1f1f1f 1.5px,
+          #050505 1.5px,
+          #050505 3px
+        );
+      animation: vinyl-spin 5s linear infinite;
       box-shadow:
-        0 0 12px rgba(255, 42, 42, 0.6),
-        0 0 24px rgba(255, 42, 42, 0.3),
-        inset 0 0 8px rgba(255, 42, 42, 0.2);
-      transform-origin: bottom center;
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, opacity 0.4s ease 0.6s;
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        inset 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+    @keyframes vinyl-spin {
+      to { transform: rotate(360deg); }
+    }
+    .opening .vinyl {
+      animation: vinyl-spin 0.8s linear infinite;
+    }
+
+    /* Center label */
+    .vinyl-label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FF7F00, #FF2A2A 50%, #8a0a0a 100%);
+      transform: translate(-50%, -50%);
+      box-shadow:
+        0 0 6px rgba(255, 42, 42, 0.7),
+        inset 0 0 4px rgba(255, 229, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vinyl-label-text {
+      font-family: 'Monoton', cursive;
+      font-size: 10px;
+      color: var(--disco-yellow);
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+      line-height: 1;
+    }
+
+    /* Center hole */
+    .vinyl-hole {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #000;
+      transform: translate(-50%, -50%);
       z-index: 2;
     }
-    .opening .box-lid {
-      transform: translateY(-280px) translateX(40px) rotate(35deg);
-      opacity: 0;
-    }
 
-    /* Vertical ribbon — neon yellow */
-    .ribbon-v {
+    /* Tonearm SVG */
+    .tonearm {
       position: absolute;
-      top: 40px;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 28px;
-      background: linear-gradient(180deg, var(--disco-yellow), var(--disco-orange));
-      box-shadow:
-        0 0 8px var(--disco-yellow),
-        0 0 16px rgba(255, 229, 0, 0.6);
+      right: 8px;
+      top: 6px;
+      width: 86px;
+      height: 110px;
+      pointer-events: none;
+      transform-origin: 84% 14%;
+      transform: rotate(0deg);
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 3;
-      transition: opacity 0.3s ease 0.1s;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
     }
-    .opening .ribbon-v { opacity: 0; }
+    .opening .tonearm {
+      transform: rotate(-26deg);
+    }
 
-    /* Horizontal ribbon */
-    .ribbon-h {
+    /* LED indicator */
+    .led {
       position: absolute;
-      top: 55px;
-      left: -10px;
-      right: -10px;
-      height: 28px;
-      background: linear-gradient(180deg, var(--disco-yellow), var(--disco-orange));
+      right: 16px;
+      bottom: 14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--disco-red);
       box-shadow:
-        0 0 8px var(--disco-yellow),
-        0 0 16px rgba(255, 229, 0, 0.6);
-      z-index: 3;
-      transition: opacity 0.3s ease 0.2s, transform 0.5s ease 0.2s;
+        0 0 6px var(--disco-red),
+        0 0 12px rgba(255, 42, 42, 0.6);
+      animation: led-pulse 1.6s ease-in-out infinite;
+      z-index: 2;
     }
-    .opening .ribbon-h {
-      opacity: 0;
-      transform: translateY(-30px);
+    @keyframes led-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
+    .opening .led { animation-duration: 0.4s; }
 
-    /* Bow */
-    .bow {
+    /* Control knobs */
+    .knob {
       position: absolute;
-      top: -10px;
-      left: 50%;
-      width: 100px;
-      height: 70px;
-      transform: translateX(-50%);
-      z-index: 4;
-      filter:
-        drop-shadow(0 0 6px var(--disco-yellow))
-        drop-shadow(0 0 12px rgba(255, 229, 0, 0.5));
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease 0.4s;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #555, #1a1a1a);
+      border: 1.5px solid #2a2a2a;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      z-index: 2;
     }
-    .opening .bow {
-      transform: translate(-50%, -350px) rotate(540deg);
-      opacity: 0;
+    .knob.k1 { right: 38px; bottom: 12px; }
+    .knob.k2 { right: 60px; bottom: 12px; }
+    .knob::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 1.5px;
+      width: 1px;
+      height: 4px;
+      background: var(--disco-teal);
+      transform: translateX(-50%);
+      box-shadow: 0 0 2px var(--disco-teal);
     }
 
     /* Tap hint — neon glow */
@@ -661,27 +685,37 @@
     <div class="top-label">De volta aos</div>
     <h1 class="top-title">ANOS 80</h1>
 
-    <!-- PRESENT -->
-    <div class="present-wrap">
-      <div class="present-container" id="present" tabindex="0" role="button" aria-label="Toque para abrir o presente">
-        <div class="box-body"></div>
-        <div class="box-glow"></div>
-        <div class="ribbon-h"></div>
-        <div class="box-lid"></div>
-        <div class="ribbon-v"></div>
-        <svg class="bow" viewBox="0 0 100 70">
-          <ellipse cx="28" cy="32" rx="22" ry="16" fill="#FFE500" stroke="#FF7F00" stroke-width="3"/>
-          <ellipse cx="28" cy="32" rx="10" ry="7" fill="#FF7F00" stroke="none"/>
-          <ellipse cx="72" cy="32" rx="22" ry="16" fill="#FFE500" stroke="#FF7F00" stroke-width="3"/>
-          <ellipse cx="72" cy="32" rx="10" ry="7" fill="#FF7F00" stroke="none"/>
-          <path d="M40 40 L32 65 L44 60 Z" fill="#FFE500" stroke="#FF7F00" stroke-width="2.5" stroke-linejoin="round"/>
-          <path d="M60 40 L68 65 L56 60 Z" fill="#FFE500" stroke="#FF7F00" stroke-width="2.5" stroke-linejoin="round"/>
-          <rect x="40" y="22" width="20" height="20" fill="#FF2A2A" stroke="#FF7F00" stroke-width="3" rx="3"/>
+    <!-- VITROLA -->
+    <div class="vitrola-wrap">
+      <div class="vitrola" id="vitrola" tabindex="0" role="button" aria-label="Toque para tocar o disco">
+        <div class="vitrola-base"></div>
+        <div class="platter"></div>
+        <div class="vinyl">
+          <div class="vinyl-label">
+            <span class="vinyl-label-text">SW 15</span>
+          </div>
+          <div class="vinyl-hole"></div>
+        </div>
+        <svg class="tonearm" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- pivot mount -->
+          <circle cx="82" cy="16" r="11" fill="#3a3a3a" stroke="#00F0FF" stroke-width="1.5"/>
+          <circle cx="82" cy="16" r="5" fill="#0a0a0a"/>
+          <circle cx="82" cy="16" r="2.5" fill="#FF2A2A"/>
+          <!-- arm (two lines = chrome highlight) -->
+          <line x1="82" y1="16" x2="32" y2="92" stroke="#888" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="82" y1="16" x2="32" y2="92" stroke="#ddd" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- headshell (cartridge holder) -->
+          <rect x="22" y="86" width="18" height="11" fill="#222" stroke="#bbb" stroke-width="1" rx="1.5"/>
+          <!-- needle -->
+          <rect x="29" y="96" width="4" height="3" fill="#ccc"/>
         </svg>
+        <div class="led"></div>
+        <div class="knob k1"></div>
+        <div class="knob k2"></div>
       </div>
     </div>
 
-    <p class="tap-hint" id="tapHint">~ toque pra abrir ~</p>
+    <p class="tap-hint" id="tapHint">~ toca o disco ~</p>
   </main>
 
   <div class="grain"></div>
@@ -729,17 +763,15 @@
 
         <div class="card-dress">TRAJE: FANTASIA</div>
 
-        <a href="/festa15-anos80/" class="card-cta">
+        <a href="https://sofiawille.github.io/festa15-anos80/" class="card-cta">
           VER CONVITE COMPLETO →
         </a>
-
-        <p class="card-link">sofiawille.github.io/festa15-anos80</p>
       </div>
     </div>
   </div>
 
   <script>
-    const present = document.getElementById('present');
+    const vitrola = document.getElementById('vitrola');
     const tapHint = document.getElementById('tapHint');
     const overlay = document.getElementById('overlay');
 
@@ -778,20 +810,20 @@
       }, 350);
     }
 
-    function openPresent() {
-      if (present.classList.contains('opening')) return;
-      present.classList.add('opening');
+    function playVitrola() {
+      if (vitrola.classList.contains('opening')) return;
+      vitrola.classList.add('opening');
       tapHint.classList.add('hide');
-      setTimeout(fireConfetti, 450);
-      setTimeout(() => overlay.classList.add('show'), 800);
+      setTimeout(fireConfetti, 600);
+      setTimeout(() => overlay.classList.add('show'), 950);
     }
 
-    present.addEventListener('click', openPresent);
-    present.addEventListener('touchstart', (e) => { e.preventDefault(); openPresent(); }, { passive: false });
-    present.addEventListener('keydown', (e) => {
+    vitrola.addEventListener('click', playVitrola);
+    vitrola.addEventListener('touchstart', (e) => { e.preventDefault(); playVitrola(); }, { passive: false });
+    vitrola.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openPresent();
+        playVitrola();
       }
     });
   </script>
