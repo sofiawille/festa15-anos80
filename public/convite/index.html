@@ -168,8 +168,8 @@
 
     .vitrola {
       position: relative;
-      width: 260px;
-      height: 200px;
+      width: 340px;
+      height: 260px;
       cursor: pointer;
       animation: gentleBob 4s ease-in-out infinite;
       transition: transform 0.2s ease;
@@ -193,7 +193,7 @@
       inset: 0;
       background: linear-gradient(135deg, #1f1f1f 0%, #0a0a0a 100%);
       border: 3px solid var(--disco-teal);
-      border-radius: 14px;
+      border-radius: 18px;
       box-shadow:
         0 0 14px rgba(0, 240, 255, 0.55),
         0 0 28px rgba(0, 240, 255, 0.25),
@@ -203,10 +203,10 @@
     /* Inner recess holding the vinyl */
     .platter {
       position: absolute;
-      left: 18px;
-      top: 18px;
-      width: 164px;
-      height: 164px;
+      left: 22px;
+      top: 22px;
+      width: 216px;
+      height: 216px;
       background: #050505;
       border-radius: 50%;
       box-shadow:
@@ -217,10 +217,10 @@
     /* The vinyl record with concentric grooves */
     .vinyl {
       position: absolute;
-      left: 22px;
-      top: 22px;
-      width: 156px;
-      height: 156px;
+      left: 28px;
+      top: 28px;
+      width: 204px;
+      height: 204px;
       border-radius: 50%;
       background:
         repeating-radial-gradient(
@@ -247,8 +247,8 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 52px;
-      height: 52px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #FF7F00, #FF2A2A 50%, #8a0a0a 100%);
       transform: translate(-50%, -50%);
@@ -261,7 +261,7 @@
     }
     .vinyl-label-text {
       font-family: 'Monoton', cursive;
-      font-size: 10px;
+      font-size: 13px;
       color: var(--disco-yellow);
       letter-spacing: 1.5px;
       text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
@@ -284,10 +284,10 @@
     /* Tonearm SVG */
     .tonearm {
       position: absolute;
-      right: 8px;
-      top: 6px;
-      width: 86px;
-      height: 110px;
+      right: 10px;
+      top: 8px;
+      width: 112px;
+      height: 144px;
       pointer-events: none;
       transform-origin: 84% 14%;
       transform: rotate(0deg);
@@ -302,10 +302,10 @@
     /* LED indicator */
     .led {
       position: absolute;
-      right: 16px;
-      bottom: 14px;
-      width: 8px;
-      height: 8px;
+      right: 21px;
+      bottom: 18px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--disco-red);
       box-shadow:
@@ -323,16 +323,16 @@
     /* Control knobs */
     .knob {
       position: absolute;
-      width: 13px;
-      height: 13px;
+      width: 17px;
+      height: 17px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #555, #1a1a1a);
       border: 1.5px solid #2a2a2a;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
       z-index: 2;
     }
-    .knob.k1 { right: 38px; bottom: 12px; }
-    .knob.k2 { right: 60px; bottom: 12px; }
+    .knob.k1 { right: 50px; bottom: 16px; }
+    .knob.k2 { right: 78px; bottom: 16px; }
     .knob::after {
       content: '';
       position: absolute;
@@ -349,7 +349,7 @@
     .tap-hint {
       font-family: 'Great Vibes', cursive;
       color: var(--disco-teal);
-      font-size: 28px;
+      font-size: 42px;
       margin-top: 28px;
       text-align: center;
       text-shadow:
@@ -611,21 +611,20 @@
 
     .card-cta {
       display: block;
-      background: transparent;
-      color: var(--disco-red);
-      border: 2px solid var(--disco-red);
+      background: linear-gradient(135deg, #FF2A2A 0%, #FF7F00 50%, #FFE500 100%);
+      color: #1a0808;
+      border: 3px solid var(--disco-yellow);
       border-radius: 999px;
-      padding: 14px 16px;
+      padding: 16px 16px;
       font-family: 'Righteous', sans-serif;
-      font-size: 13px;
+      font-size: 15px;
+      font-weight: 700;
       letter-spacing: 2px;
       text-decoration: none;
       box-shadow:
-        0 0 12px rgba(255, 42, 42, 0.5),
-        inset 0 0 12px rgba(255, 42, 42, 0.1);
-      text-shadow:
-        0 0 6px var(--disco-red),
-        0 0 12px rgba(255, 42, 42, 0.5);
+        0 0 18px rgba(255, 127, 0, 0.75),
+        0 0 36px rgba(255, 229, 0, 0.35),
+        inset 0 0 12px rgba(255, 229, 0, 0.4);
       margin-bottom: 8px;
       text-transform: uppercase;
       transition: all 0.2s ease;
@@ -633,10 +632,11 @@
       z-index: 2;
     }
     .card-cta:hover, .card-cta:active {
-      background: rgba(255, 42, 42, 0.15);
+      transform: translateY(-2px);
       box-shadow:
-        0 0 20px rgba(255, 42, 42, 0.8),
-        inset 0 0 20px rgba(255, 42, 42, 0.2);
+        0 0 28px rgba(255, 127, 0, 0.9),
+        0 0 56px rgba(255, 229, 0, 0.5),
+        inset 0 0 16px rgba(255, 229, 0, 0.5);
     }
 
     .card-link {
