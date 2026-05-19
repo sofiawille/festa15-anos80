@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Great+Vibes&family=Monoton&family=Righteous&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --disco-bg: #121212;
+      --disco-red: #FF2A2A;
+      --disco-orange: #FF7F00;
+      --disco-yellow: #FFE500;
+      --disco-teal: #00F0FF;
+      --disco-beige: #F5E6CA;
+      --disco-pink: #FF1493;
+      --disco-purple: #9D00FF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      background-color: var(--disco-bg);
+      background-image:
+        radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.30) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.30) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(255, 127, 0, 0.25) 0%, transparent 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Synthwave grid floor */
+    .grid-floor {
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      right: -10%;
+      height: 40%;
+      background-image:
+        linear-gradient(to right, rgba(0, 240, 255, 0.4) 2px, transparent 2px),
+        linear-gradient(to top, rgba(0, 240, 255, 0.4) 2px, transparent 2px);
+      background-size: 100px 80px;
+      transform: perspective(800px) rotateX(60deg);
+      transform-origin: bottom;
+      mask-image: linear-gradient(to top, black 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Sun behind */
+    .sun {
+      position: absolute;
+      top: 28%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #FF2A2A 0%, #FF7F00 40%, #FFE500 100%);
+      filter: blur(2px);
+      opacity: 0.18;
+      box-shadow:
+        0 0 100px rgba(255, 42, 42, 0.5),
+        0 0 200px rgba(255, 127, 0, 0.3);
+    }
+
+    /* Stripes on the sun (synthwave) */
+    .sun-stripes {
+      position: absolute;
+      top: 28%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 380px;
+      height: 380px;
+      pointer-events: none;
+      opacity: 0.5;
+      background-image:
+        linear-gradient(180deg, transparent 0%, transparent 50%, #121212 50.5%, #121212 53%, transparent 53.5%, transparent 60%, #121212 60.5%, #121212 64%, transparent 64.5%, transparent 72%, #121212 72.5%, #121212 78%, transparent 78.5%);
+      mask-image: radial-gradient(circle, black 50%, transparent 50%);
+      -webkit-mask-image: radial-gradient(circle, black 50%, transparent 50%);
+    }
+
+    /* Stickers */
+    .sticker {
+      position: absolute;
+    }
+
+    .content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 0 80px;
+      max-width: 1080px;
+    }
+    .label {
+      font-family: 'Righteous', sans-serif;
+      color: var(--disco-orange);
+      font-size: 36px;
+      letter-spacing: 12px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-shadow:
+        0 0 12px rgba(255, 127, 0, 0.8),
+        0 0 24px rgba(255, 127, 0, 0.4);
+    }
+    .anos {
+      font-family: 'Monoton', cursive;
+      font-size: 130px;
+      letter-spacing: 12px;
+      line-height: 1;
+      background: linear-gradient(180deg, #FF2A2A 0%, #FF7F00 50%, #FFE500 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 18px rgba(255, 42, 42, 0.6));
+      margin: 4px 0 22px;
+    }
+    .name {
+      font-family: 'Great Vibes', cursive;
+      color: var(--disco-teal);
+      font-size: 200px;
+      line-height: 0.9;
+      margin: 0 0 30px;
+      text-shadow:
+        0 0 14px var(--disco-teal),
+        0 0 28px rgba(0, 240, 255, 0.7),
+        0 0 50px rgba(0, 240, 255, 0.4);
+      transform: rotate(-3deg);
+      display: inline-block;
+    }
+    .date-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 22px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 4px solid var(--disco-yellow);
+      border-radius: 999px;
+      padding: 18px 50px;
+      box-shadow:
+        0 0 20px rgba(255, 229, 0, 0.6),
+        inset 0 0 12px rgba(255, 229, 0, 0.1);
+      font-family: 'Monoton', cursive;
+      color: var(--disco-yellow);
+      font-size: 42px;
+      letter-spacing: 4px;
+      margin-bottom: 36px;
+      text-shadow: 0 0 10px rgba(255, 229, 0, 0.6);
+    }
+    .date-pill .sep {
+      width: 14px;
+      height: 14px;
+      background: var(--disco-pink);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--disco-pink);
+    }
+    .date-pill .time {
+      color: var(--disco-teal);
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+    }
+    .cta-hint {
+      font-family: 'Great Vibes', cursive;
+      color: var(--disco-pink);
+      font-size: 56px;
+      text-shadow:
+        0 0 12px var(--disco-pink),
+        0 0 24px rgba(255, 20, 147, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="sun"></div>
+    <div class="sun-stripes"></div>
+    <div class="grid-floor"></div>
+
+    <!-- Stickers -->
+    <!-- Top-left lightning -->
+    <svg class="sticker" style="top: 70px; left: 90px; transform: rotate(-12deg); width: 130px; filter: drop-shadow(0 0 14px #FFE500);" viewBox="0 0 24 24" fill="#FFE500"><polygon points="13,2 4,14 11,14 9,22 20,9 13,9"/></svg>
+
+    <!-- Top-right disco ball -->
+    <svg class="sticker" style="top: 70px; right: 90px; width: 160px; filter: drop-shadow(0 0 18px #00F0FF);" viewBox="0 0 24 24"><defs><radialGradient id="db" cx="35%" cy="35%"><stop offset="0%" stop-color="#F5E6CA"/><stop offset="40%" stop-color="#00F0FF"/><stop offset="100%" stop-color="#121212"/></radialGradient></defs><circle cx="12" cy="12" r="10" fill="url(#db)" stroke="#00F0FF" stroke-width="0.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="#0a0a0a" stroke-width="0.4"/><line x1="12" y1="2" x2="12" y2="22" stroke="#0a0a0a" stroke-width="0.4"/><ellipse cx="12" cy="12" rx="10" ry="3" fill="none" stroke="#0a0a0a" stroke-width="0.4"/><ellipse cx="12" cy="12" rx="10" ry="6" fill="none" stroke="#0a0a0a" stroke-width="0.4"/></svg>
+
+    <!-- Middle-left red star -->
+    <svg class="sticker" style="top: 290px; left: 50px; transform: rotate(15deg); width: 100px; filter: drop-shadow(0 0 14px #FF2A2A);" viewBox="0 0 24 24" fill="#FF2A2A"><polygon points="12,2 14.5,9 22,9 16,13.5 18.5,21 12,16.5 5.5,21 8,13.5 2,9 9.5,9"/></svg>
+
+    <!-- Middle-right cassette -->
+    <svg class="sticker" style="top: 300px; right: 50px; transform: rotate(-10deg); width: 130px; filter: drop-shadow(0 0 14px #FF7F00);" viewBox="0 0 24 18" fill="none"><rect x="1" y="1" width="22" height="16" rx="1.5" fill="#1a1a1a" stroke="#FF7F00" stroke-width="1.5"/><circle cx="8" cy="9" r="2.5" fill="none" stroke="#FF7F00" stroke-width="1.2"/><circle cx="16" cy="9" r="2.5" fill="none" stroke="#FF7F00" stroke-width="1.2"/><circle cx="8" cy="9" r="0.8" fill="#FF7F00"/><circle cx="16" cy="9" r="0.8" fill="#FF7F00"/><rect x="5" y="13" width="14" height="2.5" fill="#0a0a0a" stroke="#FF7F00" stroke-width="0.7"/></svg>
+
+    <!-- Lower-left Memphis triangle -->
+    <svg class="sticker" style="bottom: 150px; left: 80px; transform: rotate(-8deg); width: 110px; filter: drop-shadow(0 0 14px #FF1493);" viewBox="0 0 24 24" fill="#FF1493"><polygon points="12,3 22,21 2,21"/></svg>
+
+    <!-- Lower-right neon heart -->
+    <svg class="sticker" style="bottom: 170px; right: 80px; transform: rotate(10deg); width: 100px; filter: drop-shadow(0 0 14px #00F0FF);" viewBox="0 0 24 24" fill="#00F0FF"><path d="M12 21s-8-5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-8 11-8 11Z"/></svg>
+
+    <!-- CENTRAL CONTENT -->
+    <div class="content">
+      <div class="label">VOCÊ FOI CONVIDADO(A)</div>
+      <h2 class="anos">ANOS 80</h2>
+      <h1 class="name">Sofia 15 anos</h1>
+      <div class="date-pill">
+        <span>04 JUL 2026</span>
+        <span class="sep"></span>
+        <span class="time">SÁB · 19:30H</span>
+      </div>
+      <p class="cta-hint">🪩 Toque pra abrir seu presente</p>
+    </div>
+  </div>
+</body>
+</html>

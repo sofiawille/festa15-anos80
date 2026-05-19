@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Sofia 15 Anos — 80's Disco Party</title>
+
+  <!-- Link preview (WhatsApp, Telegram, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="🪩 Você recebeu um convite de Sofia Wille!" />
+  <meta property="og:description" content="Sofia 15 anos · 80's Disco Party · 04/07/2026 · Clique pra abrir seu presente!" />
+  <meta property="og:url" content="https://sofiawille.github.io/festa15-anos80/convite/" />
+  <meta property="og:image" content="https://sofiawille.github.io/festa15-anos80/convite/preview.jpg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="1080" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:alt" content="Sofia 15 anos - 80s Disco Party" />
+  <meta property="og:site_name" content="Sofia 15 anos" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="theme-color" content="#121212" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🪩 Você recebeu um convite de Sofia Wille!" />
+  <meta name="twitter:description" content="Sofia 15 anos · 80's Disco Party · 04/07/2026" />
+  <meta name="twitter:image" content="https://sofiawille.github.io/festa15-anos80/convite/preview.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Great+Vibes&family=Monoton&family=Righteous&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --disco-bg: #121212;
+      --disco-bg2: #0a0a0a;
+      --disco-red: #FF2A2A;
+      --disco-orange: #FF7F00;
+      --disco-yellow: #FFE500;
+      --disco-teal: #00F0FF;
+      --disco-beige: #F5E6CA;
+      --disco-pink: #FF1493;
+      --disco-purple: #9D00FF;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--disco-beige);
+      background: #000;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior: none;
+    }
+
+    /* ============ STAGE ============ */
+    .stage {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      overflow: hidden;
+      background-color: var(--disco-bg);
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(255, 42, 42, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 80% 15%, rgba(0, 240, 255, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(255, 127, 0, 0.18) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    /* Synthwave grid floor */
+    .grid-floor {
+      position: absolute;
+      bottom: -10px;
+      left: -20%;
+      right: -20%;
+      height: 50%;
+      background-image:
+        linear-gradient(to right, rgba(0, 240, 255, 0.25) 1px, transparent 1px),
+        linear-gradient(to top, rgba(0, 240, 255, 0.25) 1px, transparent 1px);
+      background-size: 60px 40px;
+      transform: perspective(500px) rotateX(60deg);
+      transform-origin: bottom;
+      mask-image: linear-gradient(to top, black 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grain noise overlay */
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' /%3E%3C/svg%3E");
+    }
+
+    /* Floating stickers */
+    .sticker-bg {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes float-slow {
+      0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+      50% { transform: translateY(-12px) rotate(calc(var(--r, 0deg) + 5deg)); }
+    }
+    @keyframes spin-y {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 6px var(--glow, #FF2A2A)) drop-shadow(0 0 12px var(--glow, #FF2A2A)); }
+      50% { filter: drop-shadow(0 0 12px var(--glow, #FF2A2A)) drop-shadow(0 0 24px var(--glow, #FF2A2A)); }
+    }
+    .sticker-bg.float { animation: float-slow 6s ease-in-out infinite; }
+    .sticker-bg.spin { animation: spin-y 4s linear infinite; transform-style: preserve-3d; }
+    .sticker-bg.glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+    /* ============ HEADER ============ */
+    .top-label {
+      font-family: 'Righteous', sans-serif;
+      color: var(--disco-orange);
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-shadow: 0 0 8px rgba(255, 127, 0, 0.6);
+      z-index: 5;
+      position: relative;
+      animation: pulse-text 2s ease-in-out infinite;
+    }
+    @keyframes pulse-text {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .top-title {
+      font-family: 'Monoton', cursive;
+      font-size: 48px;
+      letter-spacing: 4px;
+      line-height: 1;
+      text-align: center;
+      background: linear-gradient(180deg, #FF2A2A 0%, #FF7F00 50%, #FFE500 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px rgba(255, 42, 42, 0.5));
+      margin: 6px 0 28px;
+      z-index: 5;
+      position: relative;
+    }
+    @media (min-width: 380px) {
+      .top-title { font-size: 56px; }
+    }
+
+    /* ============ PRESENT ============ */
+    .present-wrap {
+      position: relative;
+      z-index: 5;
+      perspective: 800px;
+    }
+
+    .present-container {
+      position: relative;
+      width: 220px;
+      height: 230px;
+      cursor: pointer;
+      animation: gentleSway 3s ease-in-out infinite;
+      transform-origin: bottom center;
+      transition: transform 0.2s ease;
+    }
+    .present-container:active { transform: scale(0.97); }
+    .present-container.opening { animation: shakeBurst 0.4s ease-in-out, none; pointer-events: none; }
+
+    @keyframes gentleSway {
+      0%, 100% { transform: rotate(-2.5deg); }
+      50% { transform: rotate(2.5deg); }
+    }
+    @keyframes shakeBurst {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      20% { transform: translateX(-8px) rotate(-3deg); }
+      40% { transform: translateX(8px) rotate(3deg); }
+      60% { transform: translateX(-6px) rotate(-2deg); }
+      80% { transform: translateX(6px) rotate(2deg); }
+    }
+
+    /* Box body — dark with neon teal outline + Memphis dots */
+    .box-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 160px;
+      background-color: #1a1a1a;
+      background-image:
+        radial-gradient(circle at 20% 30%, var(--disco-red) 2px, transparent 3px),
+        radial-gradient(circle at 70% 60%, var(--disco-teal) 2px, transparent 3px),
+        radial-gradient(circle at 40% 80%, var(--disco-yellow) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 85% 25%, var(--disco-orange) 2px, transparent 3px),
+        radial-gradient(circle at 15% 75%, var(--disco-pink) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 55% 15%, var(--disco-purple) 1.5px, transparent 2.5px);
+      background-size: 50px 50px;
+      border: 3px solid var(--disco-teal);
+      border-radius: 6px;
+      box-shadow:
+        0 0 12px rgba(0, 240, 255, 0.6),
+        0 0 24px rgba(0, 240, 255, 0.3),
+        inset 0 0 12px rgba(0, 240, 255, 0.15);
+      transition: transform 0.5s ease 0.3s, opacity 0.5s ease 0.5s;
+    }
+    .opening .box-body {
+      transform: translateY(15px) scale(0.95);
+      opacity: 0.7;
+    }
+
+    /* Inner glow when lid opens */
+    .box-glow {
+      position: absolute;
+      top: 50px;
+      left: 8px;
+      right: 8px;
+      height: 60px;
+      background:
+        radial-gradient(ellipse at center top, var(--disco-yellow) 0%, var(--disco-orange) 30%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease 0.5s;
+      z-index: 1;
+      filter: blur(4px);
+    }
+    .opening .box-glow { opacity: 1; }
+
+    /* Lid */
+    .box-lid {
+      position: absolute;
+      top: 40px;
+      left: -10px;
+      right: -10px;
+      height: 60px;
+      background-color: #1a1a1a;
+      background-image:
+        radial-gradient(circle at 20% 50%, var(--disco-red) 2px, transparent 3px),
+        radial-gradient(circle at 70% 30%, var(--disco-teal) 2px, transparent 3px),
+        radial-gradient(circle at 40% 70%, var(--disco-yellow) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 85% 55%, var(--disco-orange) 2px, transparent 3px);
+      background-size: 50px 40px;
+      border: 3px solid var(--disco-red);
+      border-radius: 6px;
+      box-shadow:
+        0 0 12px rgba(255, 42, 42, 0.6),
+        0 0 24px rgba(255, 42, 42, 0.3),
+        inset 0 0 8px rgba(255, 42, 42, 0.2);
+      transform-origin: bottom center;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, opacity 0.4s ease 0.6s;
+      z-index: 2;
+    }
+    .opening .box-lid {
+      transform: translateY(-280px) translateX(40px) rotate(35deg);
+      opacity: 0;
+    }
+
+    /* Vertical ribbon — neon yellow */
+    .ribbon-v {
+      position: absolute;
+      top: 40px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      background: linear-gradient(180deg, var(--disco-yellow), var(--disco-orange));
+      box-shadow:
+        0 0 8px var(--disco-yellow),
+        0 0 16px rgba(255, 229, 0, 0.6);
+      z-index: 3;
+      transition: opacity 0.3s ease 0.1s;
+    }
+    .opening .ribbon-v { opacity: 0; }
+
+    /* Horizontal ribbon */
+    .ribbon-h {
+      position: absolute;
+      top: 55px;
+      left: -10px;
+      right: -10px;
+      height: 28px;
+      background: linear-gradient(180deg, var(--disco-yellow), var(--disco-orange));
+      box-shadow:
+        0 0 8px var(--disco-yellow),
+        0 0 16px rgba(255, 229, 0, 0.6);
+      z-index: 3;
+      transition: opacity 0.3s ease 0.2s, transform 0.5s ease 0.2s;
+    }
+    .opening .ribbon-h {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+
+    /* Bow */
+    .bow {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 100px;
+      height: 70px;
+      transform: translateX(-50%);
+      z-index: 4;
+      filter:
+        drop-shadow(0 0 6px var(--disco-yellow))
+        drop-shadow(0 0 12px rgba(255, 229, 0, 0.5));
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease 0.4s;
+    }
+    .opening .bow {
+      transform: translate(-50%, -350px) rotate(540deg);
+      opacity: 0;
+    }
+
+    /* Tap hint — neon glow */
+    .tap-hint {
+      font-family: 'Great Vibes', cursive;
+      color: var(--disco-teal);
+      font-size: 28px;
+      margin-top: 28px;
+      text-align: center;
+      text-shadow:
+        0 0 6px var(--disco-teal),
+        0 0 12px rgba(0, 240, 255, 0.6);
+      animation: pulse 1.6s ease-in-out infinite;
+      z-index: 5;
+      position: relative;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.06); opacity: 0.85; }
+    }
+    .tap-hint.hide {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+      pointer-events: none;
+    }
+
+    /* ============ INVITE CARD (reveal) ============ */
+    .invite-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .invite-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .invite-card {
+      transform: scale(0) rotate(-30deg);
+      transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+      width: 100%;
+      max-width: 360px;
+    }
+    .invite-overlay.show .invite-card {
+      transform: scale(1) rotate(-1deg);
+    }
+
+    .card-inner {
+      background:
+        linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      border: 3px solid var(--disco-teal);
+      border-radius: 18px;
+      padding: 26px 20px 22px;
+      box-shadow:
+        0 0 20px rgba(0, 240, 255, 0.5),
+        0 0 40px rgba(0, 240, 255, 0.2),
+        inset 0 0 30px rgba(0, 240, 255, 0.05);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Memphis dots scattered on card */
+    .card-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 12% 18%, var(--disco-red) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 88% 15%, var(--disco-teal) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 15% 80%, var(--disco-yellow) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 85% 82%, var(--disco-orange) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 50% 92%, var(--disco-pink) 1px, transparent 2px);
+      background-size: 100% 100%;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    /* Neon gradient stripe at top */
+    .card-stripe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--disco-red) 0%,
+        var(--disco-orange) 25%,
+        var(--disco-yellow) 50%,
+        var(--disco-teal) 75%,
+        var(--disco-pink) 100%);
+      box-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
+    }
+
+    /* Corner decorations */
+    .card-corner {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+    }
+    .card-corner.tl { top: 14px; left: 12px; }
+    .card-corner.tr { top: 14px; right: 12px; }
+    .card-corner.bl { bottom: 14px; left: 12px; }
+    .card-corner.br { bottom: 14px; right: 12px; }
+
+    .card-pretitle {
+      font-family: 'Righteous', sans-serif;
+      color: var(--disco-orange);
+      font-size: 11px;
+      letter-spacing: 3px;
+      margin: 8px 0 6px;
+      text-transform: uppercase;
+      text-shadow: 0 0 6px rgba(255, 127, 0, 0.6);
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-anos {
+      font-family: 'Monoton', cursive;
+      font-size: 32px;
+      letter-spacing: 4px;
+      line-height: 1;
+      background: linear-gradient(180deg, #FF2A2A 0%, #FF7F00 50%, #FFE500 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(255, 42, 42, 0.5));
+      margin: 4px 0 6px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-name {
+      font-family: 'Great Vibes', cursive;
+      color: var(--disco-teal);
+      font-size: 72px;
+      line-height: 0.9;
+      margin: 4px 0 10px;
+      text-shadow:
+        0 0 8px var(--disco-teal),
+        0 0 16px rgba(0, 240, 255, 0.7),
+        0 0 24px rgba(0, 240, 255, 0.4);
+      transform: rotate(-3deg);
+      display: inline-block;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-divider {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin: 12px 0;
+      position: relative;
+      z-index: 2;
+    }
+    .card-divider > div {
+      height: 4px;
+      border-radius: 2px;
+      box-shadow: 0 0 6px currentColor;
+    }
+
+    /* Date pill — yellow neon */
+    .card-date {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid var(--disco-yellow);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin: 4px auto 14px;
+      max-width: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      box-shadow:
+        0 0 10px rgba(255, 229, 0, 0.5),
+        inset 0 0 8px rgba(255, 229, 0, 0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .card-date-day {
+      font-family: 'Monoton', cursive;
+      font-size: 44px;
+      color: var(--disco-red);
+      line-height: 1;
+      text-shadow:
+        0 0 6px var(--disco-red),
+        0 0 12px rgba(255, 42, 42, 0.5);
+    }
+    .card-date-info { text-align: left; }
+    .card-date-month {
+      font-family: 'Monoton', cursive;
+      font-size: 16px;
+      color: var(--disco-orange);
+      letter-spacing: 2px;
+      line-height: 1;
+      text-shadow: 0 0 4px rgba(255, 127, 0, 0.6);
+    }
+    .card-date-year {
+      font-family: 'Righteous', sans-serif;
+      font-size: 13px;
+      color: var(--disco-yellow);
+      letter-spacing: 2px;
+      margin-top: 3px;
+      text-shadow: 0 0 4px rgba(255, 229, 0, 0.5);
+    }
+    .card-date-time {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--disco-teal);
+      margin-top: 1px;
+      text-shadow: 0 0 4px rgba(0, 240, 255, 0.5);
+    }
+
+    .card-location {
+      font-family: 'Righteous', sans-serif;
+      color: var(--disco-beige);
+      font-size: 18px;
+      line-height: 1.15;
+      margin: 6px 0 4px;
+      text-shadow: 0 0 4px rgba(245, 230, 202, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+    .card-address {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--disco-beige);
+      opacity: 0.7;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-dress {
+      background: rgba(255, 42, 42, 0.12);
+      color: var(--disco-red);
+      border: 2px solid var(--disco-red);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-family: 'Righteous', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      display: inline-block;
+      margin: 4px 0 16px;
+      text-transform: uppercase;
+      box-shadow:
+        0 0 8px rgba(255, 42, 42, 0.4),
+        inset 0 0 8px rgba(255, 42, 42, 0.1);
+      text-shadow: 0 0 4px rgba(255, 42, 42, 0.6);
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-cta {
+      display: block;
+      background: transparent;
+      color: var(--disco-red);
+      border: 2px solid var(--disco-red);
+      border-radius: 999px;
+      padding: 14px 16px;
+      font-family: 'Righteous', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      box-shadow:
+        0 0 12px rgba(255, 42, 42, 0.5),
+        inset 0 0 12px rgba(255, 42, 42, 0.1);
+      text-shadow:
+        0 0 6px var(--disco-red),
+        0 0 12px rgba(255, 42, 42, 0.5);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 2;
+    }
+    .card-cta:hover, .card-cta:active {
+      background: rgba(255, 42, 42, 0.15);
+      box-shadow:
+        0 0 20px rgba(255, 42, 42, 0.8),
+        inset 0 0 20px rgba(255, 42, 42, 0.2);
+    }
+
+    .card-link {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      color: var(--disco-teal);
+      opacity: 0.75;
+      letter-spacing: 0.5px;
+      word-break: break-all;
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <div class="grid-floor"></div>
+
+    <!-- BACKGROUND STICKERS -->
+    <!-- Top-left: lightning bolt -->
+    <svg class="sticker-bg float glow" style="top: 8%; left: 6%; --r: -10deg; --glow: #FFE500; width: 44px;" viewBox="0 0 24 24" fill="#FFE500"><polygon points="13,2 4,14 11,14 9,22 20,9 13,9"/></svg>
+
+    <!-- Top-right: disco ball -->
+    <svg class="sticker-bg spin glow" style="top: 12%; right: 10%; --glow: #00F0FF; width: 56px;" viewBox="0 0 24 24"><defs><radialGradient id="db1" cx="35%" cy="35%"><stop offset="0%" stop-color="#F5E6CA"/><stop offset="40%" stop-color="#00F0FF"/><stop offset="100%" stop-color="#1a1a1a"/></radialGradient></defs><circle cx="12" cy="12" r="10" fill="url(#db1)" stroke="#00F0FF" stroke-width="1"/><line x1="2" y1="12" x2="22" y2="12" stroke="#1a1a1a" stroke-width="0.4"/><line x1="12" y1="2" x2="12" y2="22" stroke="#1a1a1a" stroke-width="0.4"/><ellipse cx="12" cy="12" rx="10" ry="3" fill="none" stroke="#1a1a1a" stroke-width="0.4"/><ellipse cx="12" cy="12" rx="10" ry="6" fill="none" stroke="#1a1a1a" stroke-width="0.4"/></svg>
+
+    <!-- Middle-left: star -->
+    <svg class="sticker-bg float glow" style="top: 28%; left: 4%; --r: 12deg; --glow: #FF2A2A; width: 38px; animation-delay: -2s;" viewBox="0 0 24 24" fill="#FF2A2A"><polygon points="12,2 14.5,9 22,9 16,13.5 18.5,21 12,16.5 5.5,21 8,13.5 2,9 9.5,9"/></svg>
+
+    <!-- Middle-right: cassette tape -->
+    <svg class="sticker-bg float glow" style="top: 30%; right: 4%; --r: -8deg; --glow: #FF7F00; width: 50px; animation-delay: -3s;" viewBox="0 0 24 18" fill="none"><rect x="1" y="1" width="22" height="16" rx="1.5" fill="#1a1a1a" stroke="#FF7F00" stroke-width="1.2"/><circle cx="8" cy="9" r="2.5" fill="none" stroke="#FF7F00" stroke-width="1"/><circle cx="16" cy="9" r="2.5" fill="none" stroke="#FF7F00" stroke-width="1"/><circle cx="8" cy="9" r="0.8" fill="#FF7F00"/><circle cx="16" cy="9" r="0.8" fill="#FF7F00"/><rect x="5" y="13" width="14" height="2.5" fill="#0a0a0a" stroke="#FF7F00" stroke-width="0.7"/></svg>
+
+    <!-- Lower-left: Memphis triangle -->
+    <svg class="sticker-bg float glow" style="bottom: 18%; left: 5%; --r: -5deg; --glow: #FF1493; width: 46px; animation-delay: -1.5s;" viewBox="0 0 24 24" fill="#FF1493"><polygon points="12,3 22,21 2,21"/></svg>
+
+    <!-- Lower-right: neon heart -->
+    <svg class="sticker-bg float glow" style="bottom: 20%; right: 5%; --r: 8deg; --glow: #00F0FF; width: 40px; animation-delay: -4s;" viewBox="0 0 24 24" fill="#00F0FF"><path d="M12 21s-8-5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-8 11-8 11Z"/></svg>
+
+    <!-- Side: small circles -->
+    <svg class="sticker-bg float glow" style="top: 50%; left: 3%; --r: 5deg; --glow: #FFE500; width: 22px; animation-delay: -2.5s;" viewBox="0 0 24 24" fill="#FFE500"><circle cx="12" cy="12" r="10"/></svg>
+    <svg class="sticker-bg float glow" style="top: 52%; right: 3%; --r: -10deg; --glow: #9D00FF; width: 24px; animation-delay: -5s;" viewBox="0 0 24 24" fill="#9D00FF"><polygon points="12,2 14.5,9 22,9 16,13.5 18.5,21 12,16.5 5.5,21 8,13.5 2,9 9.5,9"/></svg>
+
+    <!-- HEADER -->
+    <div class="top-label">De volta aos</div>
+    <h1 class="top-title">ANOS 80</h1>
+
+    <!-- PRESENT -->
+    <div class="present-wrap">
+      <div class="present-container" id="present" tabindex="0" role="button" aria-label="Toque para abrir o presente">
+        <div class="box-body"></div>
+        <div class="box-glow"></div>
+        <div class="ribbon-h"></div>
+        <div class="box-lid"></div>
+        <div class="ribbon-v"></div>
+        <svg class="bow" viewBox="0 0 100 70">
+          <ellipse cx="28" cy="32" rx="22" ry="16" fill="#FFE500" stroke="#FF7F00" stroke-width="3"/>
+          <ellipse cx="28" cy="32" rx="10" ry="7" fill="#FF7F00" stroke="none"/>
+          <ellipse cx="72" cy="32" rx="22" ry="16" fill="#FFE500" stroke="#FF7F00" stroke-width="3"/>
+          <ellipse cx="72" cy="32" rx="10" ry="7" fill="#FF7F00" stroke="none"/>
+          <path d="M40 40 L32 65 L44 60 Z" fill="#FFE500" stroke="#FF7F00" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M60 40 L68 65 L56 60 Z" fill="#FFE500" stroke="#FF7F00" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="40" y="22" width="20" height="20" fill="#FF2A2A" stroke="#FF7F00" stroke-width="3" rx="3"/>
+        </svg>
+      </div>
+    </div>
+
+    <p class="tap-hint" id="tapHint">~ toque pra abrir ~</p>
+  </main>
+
+  <div class="grain"></div>
+
+  <!-- INVITE OVERLAY -->
+  <div class="invite-overlay" id="overlay">
+    <div class="invite-card">
+      <div class="card-inner">
+        <div class="card-stripe"></div>
+
+        <!-- Corner: top-left lightning -->
+        <svg class="card-corner tl" viewBox="0 0 24 24" fill="#FFE500" style="filter: drop-shadow(0 0 4px #FFE500); transform: rotate(-10deg);"><polygon points="13,2 4,14 11,14 9,22 20,9 13,9"/></svg>
+
+        <!-- Corner: top-right star -->
+        <svg class="card-corner tr" viewBox="0 0 24 24" fill="#FF2A2A" style="filter: drop-shadow(0 0 4px #FF2A2A); transform: rotate(10deg);"><polygon points="12,2 14.5,9 22,9 16,13.5 18.5,21 12,16.5 5.5,21 8,13.5 2,9 9.5,9"/></svg>
+
+        <!-- Corner: bottom-left triangle -->
+        <svg class="card-corner bl" viewBox="0 0 24 24" fill="#FF1493" style="filter: drop-shadow(0 0 4px #FF1493); transform: rotate(8deg);"><polygon points="12,3 22,21 2,21"/></svg>
+
+        <!-- Corner: bottom-right teal disc -->
+        <svg class="card-corner br" viewBox="0 0 24 24" fill="#00F0FF" style="filter: drop-shadow(0 0 4px #00F0FF); transform: rotate(-8deg);"><circle cx="12" cy="12" r="10"/></svg>
+
+        <p class="card-pretitle">Você está convidado(a)</p>
+        <h2 class="card-anos">ANOS 80</h2>
+        <h1 class="card-name">Sofia 15 anos</h1>
+
+        <div class="card-divider">
+          <div style="background: #FF2A2A; color: #FF2A2A; width: 32px;"></div>
+          <div style="background: #FF7F00; color: #FF7F00; width: 22px;"></div>
+          <div style="background: #FFE500; color: #FFE500; width: 16px;"></div>
+          <div style="background: #00F0FF; color: #00F0FF; width: 10px;"></div>
+        </div>
+
+        <div class="card-date">
+          <div class="card-date-day">04</div>
+          <div class="card-date-info">
+            <div class="card-date-month">JUL</div>
+            <div class="card-date-year">2026</div>
+            <div class="card-date-time">SÁB · 19:30H</div>
+          </div>
+        </div>
+
+        <div class="card-location">Edifício Rio Volga</div>
+        <div class="card-address">Travessa Dr. Flávio Luz, 153</div>
+
+        <div class="card-dress">TRAJE: FANTASIA</div>
+
+        <a href="/festa15-anos80/" class="card-cta">
+          VER CONVITE COMPLETO →
+        </a>
+
+        <p class="card-link">sofiawille.github.io/festa15-anos80</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const present = document.getElementById('present');
+    const tapHint = document.getElementById('tapHint');
+    const overlay = document.getElementById('overlay');
+
+    const discoColors = ['#FF2A2A', '#FF7F00', '#FFE500', '#00F0FF', '#F5E6CA', '#FF1493', '#9D00FF'];
+
+    function fireConfetti() {
+      confetti({
+        particleCount: 180,
+        spread: 100,
+        startVelocity: 55,
+        origin: { x: 0.5, y: 0.55 },
+        colors: discoColors,
+        shapes: ['square', 'circle'],
+        scalar: 1.3,
+        ticks: 250,
+      });
+      setTimeout(() => {
+        confetti({
+          particleCount: 80, angle: 60, spread: 60,
+          origin: { x: 0, y: 0.7 }, colors: discoColors, scalar: 1.1,
+        });
+        confetti({
+          particleCount: 80, angle: 120, spread: 60,
+          origin: { x: 1, y: 0.7 }, colors: discoColors, scalar: 1.1,
+        });
+      }, 200);
+      let rainCount = 0;
+      const rain = setInterval(() => {
+        confetti({
+          particleCount: 25, startVelocity: 25, spread: 360,
+          origin: { x: Math.random(), y: 0 },
+          colors: discoColors, gravity: 1.1, scalar: 1, ticks: 200,
+        });
+        rainCount++;
+        if (rainCount >= 5) clearInterval(rain);
+      }, 350);
+    }
+
+    function openPresent() {
+      if (present.classList.contains('opening')) return;
+      present.classList.add('opening');
+      tapHint.classList.add('hide');
+      setTimeout(fireConfetti, 450);
+      setTimeout(() => overlay.classList.add('show'), 800);
+    }
+
+    present.addEventListener('click', openPresent);
+    present.addEventListener('touchstart', (e) => { e.preventDefault(); openPresent(); }, { passive: false });
+    present.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openPresent();
+      }
+    });
+  </script>
+</body>
+</html>
